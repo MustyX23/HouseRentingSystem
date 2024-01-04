@@ -1,4 +1,5 @@
-﻿using HouseRentingSystem.Web.ViewModels.Agent;
+﻿using HouseRentingSystem.Data.Models;
+using HouseRentingSystem.Web.ViewModels.Agent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace HouseRentingSystem.Services.Data.Interfaces
         Task<bool> AgentHasRentsByUserIdAsync(string userId);
 
         Task CreateAgentAsync(string userId, BecomeAgentFormModel model);
+
+        Task<string?> FindAgentIdByUserIdAsync(string userId);
     }
 }

@@ -17,6 +17,15 @@ namespace HouseRentingSystem.Services.Data
         {
             this.dbContext = dbContext;
         }
+
+        public async Task<bool> ExistsByIdAsync(int id)
+        {
+            bool result = await dbContext
+                .Categories.AnyAsync(c => c.Id == id);
+
+            return result;
+        }
+
         public async Task<IEnumerable<CategoryViewModel>> GetAllCategoriesAsync()
         {
             IEnumerable<CategoryViewModel> allSelectedCategories = await
