@@ -43,10 +43,10 @@
             housesQuery = queryModel.HouseSorting switch
             {
                 HouseSorting.Newest => housesQuery
-                .OrderBy(h => h.CreatedOn),
+                .OrderByDescending(h => h.CreatedOn),
 
                 HouseSorting.Oldest => housesQuery
-                .OrderByDescending(h => h.CreatedOn),
+                .OrderBy(h => h.CreatedOn),
 
                 HouseSorting.LowestPrice => housesQuery
                 .OrderBy(h => h.PricePerMonth),
