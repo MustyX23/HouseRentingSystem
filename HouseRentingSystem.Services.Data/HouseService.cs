@@ -76,7 +76,7 @@
                 })
                 .ToArrayAsync();
 
-            int totalHouses = housesQuery.Count();
+            int totalHouses = housesQuery.Count(h => h.IsActive);
 
             return new AllHousesFilteredAndPagedServiceModel()
             {

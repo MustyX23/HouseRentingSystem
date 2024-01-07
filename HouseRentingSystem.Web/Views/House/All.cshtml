@@ -60,7 +60,7 @@
     int maxPage = (int)Math.Ceiling((double)Model.TotalHouses /
     Model.HousesPerPage);
 }
-@if (!Model.Houses.Any() && Model.Houses.Any(h => h.IsActive))
+@if (!Model.Houses.Any())
 {
     <h2 class="text-center">No houses found by the given criteria!</h2>
 }
@@ -82,12 +82,10 @@ string.Empty)"
            asp-route-sorting="@((int)Model.HouseSorting)"><<</a>
     </div>
     @{
-        bool shouldNextPageBeDisabled = Model.CurrentPage == maxPage ||
-        !Model.Houses.Any();
+        bool shouldNextPageBeDisabled = Model.CurrentPage >= maxPage || !Model.Houses.Any();
     }
     <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-primary
- @(shouldNextPageBeDisabled ? "disabled" : string.Empty)"
+        <a class="btn btn-primary @(shouldNextPageBeDisabled ? "disabled" : string.Empty)"
            asp-controller="House"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"

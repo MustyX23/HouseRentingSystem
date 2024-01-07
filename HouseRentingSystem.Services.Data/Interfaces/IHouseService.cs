@@ -30,5 +30,6 @@
         Task<HousePreDeleteViewModel> GetHouseForDeleteByIdAsync(string houseId);
 
         Task DeleteHouseByIdAsync(string houseId);
+
     }
 }
