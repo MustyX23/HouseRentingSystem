@@ -102,6 +102,7 @@
                     = await agentService.FindAgentIdByUserIdAsync(userId);
 
                 await houseService.CreateAsync(model, agentId!);
+                TempData[SuccessMessage] = "You successfully added a house!";
                 return RedirectToAction("All", "House");
             }
             catch (Exception)
