@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using HouseRentingSystem.Services.Data.Models.House;
+    using NuGet.Packaging;
 
     [Authorize]
     public class HouseController : Controller
@@ -102,6 +103,29 @@
 
                 return View(model);
             }
+        }
+
+        public async Task<IActionResult> Mine()
+        {
+            ICollection<HouseAllViewModel> myHouses 
+                = new HashSet<HouseAllViewModel>();
+
+            string userId = User.GetId();
+
+            bool isAgent = await agentService.AgentExistsByUserIdAsync(userId);
+
+            if (isAgent) 
+            {
+                string? agentId = await agentService.FindAgentIdByUserIdAsync(userId);
+
+                myHouses.AddRange(await houseService.AllByAgentIdAsync(agentId!));
+            }
+            else
+            {
+                myHouses.AddRange(await houseService.AllByUserIdAsync(userId));
+            }
+
+            return View(myHouses);
         }
     }
 }

@@ -61,6 +61,7 @@
             };
 
             IEnumerable<HouseAllViewModel> allHouses = await housesQuery
+                .Where(h => h.IsActive)
                 .Skip((queryModel.CurrentPage - 1) * queryModel.HousesPerPage)
                 .Take(queryModel.HousesPerPage)
                 .Select(h => new HouseAllViewModel()
@@ -80,6 +81,43 @@
                 Houses = allHouses,
                 TotalHousesCount = totalHouses,
             };
+        }
+
+        public async Task<IEnumerable<HouseAllViewModel>> AllByAgentIdAsync(string agentId)
+        {
+            IEnumerable<HouseAllViewModel> allAgentHouses = await dbContext
+                .Houses
+                .Where(h => h.IsActive && h.AgentId.ToString() == agentId)
+                .Select(h => new HouseAllViewModel()
+                {
+                    Id = h.Id.ToString(),
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    IsRented = h.RenterId.HasValue,
+                    PricePerMonth = h.PricePerMonth,
+                }).ToArrayAsync();
+
+            return allAgentHouses;
+        }
+
+        public async Task<IEnumerable<HouseAllViewModel>> AllByUserIdAsync(string userId)
+        {
+            IEnumerable<HouseAllViewModel> allUserHouses = await dbContext
+                .Houses
+                .Where(h => h.IsActive && h.RenterId.ToString() == userId 
+                    && h.RenterId.HasValue)
+                .Select(h => new HouseAllViewModel()
+                {
+                    Id = h.Id.ToString(),
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    IsRented = h.RenterId.HasValue,
+                    PricePerMonth = h.PricePerMonth,
+                }).ToArrayAsync();
+
+            return allUserHouses;
         }
 
         public async Task CreateAsync(HouseFormModel model, string agentId)
