@@ -27,6 +27,7 @@
         public string ImageUrl {  get; set; } = null!;
 
         [Range(typeof(decimal),PricePerMonthMin, PricePerMonthMax)]
+        [Display(Name = "Monthly Price")]
         public decimal PricePerMonth {  get; set; }
 
         [Display(Name = "Category")]
