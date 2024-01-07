@@ -60,7 +60,7 @@
     int maxPage = (int)Math.Ceiling((double)Model.TotalHouses /
     Model.HousesPerPage);
 }
-@if (!Model.Houses.Any())
+@if (!Model.Houses.Any() && Model.Houses.Any(h => h.IsActive))
 {
     <h2 class="text-center">No houses found by the given criteria!</h2>
 }

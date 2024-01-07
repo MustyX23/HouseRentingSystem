@@ -249,7 +249,7 @@
 
             try
             {
-                await houseService.EditHouseByIdAndFormModel(id, formModel);
+                await houseService.EditHouseByIdAndFormModelAsync(id, formModel);
                 TempData[SuccessMessage] = "You successfully edited the house!";
             }
             catch (Exception)
@@ -261,6 +261,98 @@
 
             return RedirectToAction("Details", "House", new {id});
         }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            string userId = User.GetId();
+            bool isUserAgent = await agentService.AgentExistsByUserIdAsync(userId);
+
+            bool houseExists = await houseService
+                .ExistsByIdAsync(id);
+            if (!houseExists)
+            {
+                TempData[ErrorMessage] = "House with the provided id does not exist!";
+
+                return RedirectToAction("All", "House");
+
+            }
+
+            if (!isUserAgent)
+            {
+                TempData[ErrorMessage] = "Become an Agent if you want to edit a house info";
+                return RedirectToAction("Become", "Agent");
+            }
+
+            string? agentId = await agentService.FindAgentIdByUserIdAsync(userId);
+
+            bool isAgentOwner = await houseService
+                .IsAgentWithIdOwnerOfHouseWithIdAsync(id, agentId!);
+
+            if (!isAgentOwner)
+            {
+                TempData[ErrorMessage] = "Sorry, you are not an owner of the house";
+                return RedirectToAction("Mine", "House");
+            }
+
+            try
+            {
+               HousePreDeleteViewModel housePreDeleteViewModel 
+                    = await houseService.GetHouseForDeleteByIdAsync(id);
+
+                return View(housePreDeleteViewModel);
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, HousePreDeleteViewModel viewModel)
+        {
+            string userId = User.GetId();
+            bool isUserAgent = await agentService.AgentExistsByUserIdAsync(userId);
+
+            bool houseExists = await houseService
+                .ExistsByIdAsync(id);
+            if (!houseExists)
+            {
+                TempData[ErrorMessage] = "House with the provided id does not exist!";
+
+                return RedirectToAction("All", "House");
+
+            }
+
+            if (!isUserAgent)
+            {
+                TempData[ErrorMessage] = "Become an Agent if you want to edit a house info";
+                return RedirectToAction("Become", "Agent");
+            }
+
+            string? agentId = await agentService.FindAgentIdByUserIdAsync(userId);
+
+            bool isAgentOwner = await houseService
+                .IsAgentWithIdOwnerOfHouseWithIdAsync(id, agentId!);
+
+            if (!isAgentOwner)
+            {
+                TempData[ErrorMessage] = "Sorry, you are not an owner of the house";
+                return RedirectToAction("Mine", "House");
+            }
+
+            try
+            {
+                await houseService.DeleteHouseByIdAsync(id);
+                TempData[WarningMessage] = "Your house was successfuly deleted";
+                return RedirectToAction("Mine", "House");
+            }
+            catch (Exception)
+            {
+                return GeneralError();
+            }
+        }
+
         private IActionResult GeneralError()
         {
             TempData[ErrorMessage] = "Unexpected Error occured. Please try again later :(";

@@ -17,7 +17,7 @@
         public int CurrentPage { get; set; } = DefaultPage;
 
         [Display(Name = "Show Houses on Page")]
-        public int HousesPerPage { get; set; } = EntitiesPerPage; 
+        public int HousesPerPage { get; set; } = EntitiesPerPage;
 
         public int TotalHouses { get; set; }
 
