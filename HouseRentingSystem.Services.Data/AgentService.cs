@@ -1,16 +1,11 @@
-﻿using HouseRentingSystem.Data.Models;
-using HouseRentingSystem.Services.Data.Interfaces;
-using HouseRentingSystem.Web.Data;
-using HouseRentingSystem.Web.ViewModels.Agent;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HouseRentingSystem.Services.Data
+﻿namespace HouseRentingSystem.Services.Data
 {
+    using HouseRentingSystem.Data.Models;
+    using HouseRentingSystem.Services.Data.Interfaces;
+    using HouseRentingSystem.Web.Data;
+    using HouseRentingSystem.Web.ViewModels.Agent;
+    using Microsoft.EntityFrameworkCore;
+
     public class AgentService : IAgentService
     {
         private readonly HouseRentingDbContext dbContext;

@@ -8,6 +8,7 @@
     using HouseRentingSystem.Web.ViewModels.House;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using HouseRentingSystem.Services.Data.Models.House;
 
     [Authorize]
     public class HouseController : Controller
@@ -24,10 +25,16 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllHousesQueryModel queryModel)
         {
-            return Ok();
-            return View();
+            AllHousesFilteredAndPagedServiceModel serviceModel
+                = await houseService.AllAsync(queryModel);
+
+            queryModel.Houses = serviceModel.Houses;
+            queryModel.TotalHouses = serviceModel.TotalHousesCount;
+            queryModel.Categories = await categoryService.AllCategoryNamesAsync();
+
+            return View(queryModel);
         }
 
         public async Task<IActionResult> Add()
