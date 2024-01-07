@@ -103,6 +103,7 @@
         {
             IEnumerable<IndexViewModel> lastThreeHouses = await dbContext
                 .Houses
+                .Where(h => h.IsActive)
                 .OrderByDescending(x => x.CreatedOn)
                 .Take(3)
                 .Select(h => new IndexViewModel()

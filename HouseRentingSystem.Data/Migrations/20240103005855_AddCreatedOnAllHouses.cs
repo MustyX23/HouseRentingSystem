@@ -36,7 +36,7 @@ namespace HouseRentingSystem.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Houses",
                 columns: new[] { "Id", "Address", "AgentId", "CategoryId", "Description", "ImageUrl", "IsActive", "PricePerMonth", "RenterId", "Title" },
-                values: new object[] { new Guid("0ac1b389-ae06-47d8-91db-9a6da019f15e"), "North London, UK (near the border)", new Guid("6451e0aa-97cf-43be-a42d-68f339c5e7ea"), 3, "A big house for your whole family. Don't miss to buy a house with three bedrooms.", "https://www.luxury-architecture.net/wpcontent/uploads/2017/12/1513217889-7597-FAIRWAYS-010.jpg", false, 2100.00m, new Guid("45e9217d-b923-4287-4b92-08dc0bef4f68"), "Big House Marina" });
+                values: new object[] { new Guid("0ac1b389-ae06-47d8-91db-9a6da019f15e"), "North London, UK (near the border)", new Guid("6451e0aa-97cf-43be-a42d-68f339c5e7ea"), 3, "A big house for your whole family. Don't miss to buy a house with three bedrooms.", "https://propertylondon.co.uk/wp-content/uploads/2021/01/Blagdens-Row-Blagdens-Lane-Southgate-2-1.jpeg", false, 2100.00m, new Guid("45e9217d-b923-4287-4b92-08dc0bef4f68"), "Big House Marina" });
 
             migrationBuilder.InsertData(
                 table: "Houses",
