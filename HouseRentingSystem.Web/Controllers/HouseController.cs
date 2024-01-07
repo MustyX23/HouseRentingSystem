@@ -131,15 +131,23 @@
         [AllowAnonymous]
         public async Task<IActionResult> Details(string id)
         {
-            HouseDetailsViewModel? viewModel = await houseService.GetDetailsByIdAsync(id);
+            bool houseExists = await houseService.ExistsByIdAsync(id);           
 
-            if (viewModel == null)
+            if (!houseExists)
             {
                 TempData[ErrorMessage] = "That house doesn't exist at the moment";
                 return RedirectToAction("All", "House");
             }
 
+            HouseDetailsViewModel viewModel 
+                = await houseService.GetDetailsByIdAsync(id);
+
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+
         }
     }
 }

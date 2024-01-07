@@ -138,19 +138,23 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> ExistsByIdAsync(string id)
+        {
+            bool result = await dbContext.Houses
+                .Where(h => h.IsActive)
+                .AnyAsync(h => h.Id.ToString() == id);
+
+            return result;
+        }
+
         public async Task<HouseDetailsViewModel> GetDetailsByIdAsync(string houseId)
         {
-            House? house = await dbContext.Houses
+            House house = await dbContext.Houses
                 .Include(h => h.Category)
                 .Include(h => h.Agent)
                 .ThenInclude(h => h.User)
                 .Where(h => h.IsActive)
-                .FirstOrDefaultAsync(h => h.Id.ToString() == houseId);
-
-            if (house == null)
-            {
-                return null!;
-            }
+                .FirstAsync(h => h.Id.ToString() == houseId);
 
             return new HouseDetailsViewModel()
             {
@@ -167,6 +171,24 @@
                     Email = house.Agent.User.Email,
                     PhoneNumber = house.Agent.PhoneNumber
                 }
+            };
+        }
+
+        public async Task<HouseFormModel> GetHouseForEditByIdAsync(string houseId)
+        {
+            House house = await dbContext.Houses
+                .Include(h => h.Category)
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return new HouseFormModel() 
+            {
+                Title = house.Title,
+                Description = house.Description,
+                Address = house.Address,
+                ImageUrl = house.ImageUrl,
+                PricePerMonth = house.PricePerMonth,
+                CategoryId = house.CategoryId,
             };
         }
 
