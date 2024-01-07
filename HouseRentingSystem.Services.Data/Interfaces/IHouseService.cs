@@ -17,5 +17,6 @@
 
         Task<IEnumerable<HouseAllViewModel>> AllByUserIdAsync(string userId);
 
+        Task<HouseDetailsViewModel?> GetDetailsByIdAsync(string houseId);
     }
 }

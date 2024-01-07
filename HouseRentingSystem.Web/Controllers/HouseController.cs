@@ -127,5 +127,19 @@
 
             return View(myHouses);
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(string id)
+        {
+            HouseDetailsViewModel? viewModel = await houseService.GetDetailsByIdAsync(id);
+
+            if (viewModel == null)
+            {
+                TempData[ErrorMessage] = "That house doesn't exist at the moment";
+                return RedirectToAction("All", "House");
+            }
+
+            return View(viewModel);
+        }
     }
 }
