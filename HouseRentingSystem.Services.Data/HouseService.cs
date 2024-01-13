@@ -246,6 +246,24 @@
             return house.AgentId.ToString() == agentId;
         }
 
+        public async Task<bool> IsRentedByIdAsync(string houseId)
+        {
+            House house = await dbContext.Houses
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return house.RenterId.HasValue;
+        }
+
+        public async Task<bool> IsRentedByUserWithRenterIdÁsync(string houseId, string userId)
+        {
+            House house = await dbContext.Houses
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return house.RenterId.HasValue && house.RenterId == Guid.Parse(userId);
+        }
+
         public async Task<IEnumerable<IndexViewModel>> LastThreeHousesAsync()
         {
             IEnumerable<IndexViewModel> lastThreeHouses = await dbContext
@@ -262,6 +280,28 @@
                 .ToArrayAsync();
 
             return lastThreeHouses;
+        }
+
+        public async Task LeaveHouseAsync(string houseId)
+        {
+            House house = await dbContext.Houses
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            house.RenterId = null;
+            await dbContext.SaveChangesAsync();
+
+        }
+
+        public async Task RentHouseAsync(string houseId, string userId)
+        {
+            House house = await dbContext.Houses
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            house.RenterId = Guid.Parse(userId);
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }

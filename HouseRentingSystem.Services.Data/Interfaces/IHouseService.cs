@@ -3,7 +3,7 @@
     using HouseRentingSystem.Services.Data.Models.House;
     using HouseRentingSystem.Web.ViewModels.Home;
     using HouseRentingSystem.Web.ViewModels.House;
-    
+    using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
     public interface IHouseService
     {
@@ -30,6 +30,13 @@
         Task<HousePreDeleteViewModel> GetHouseForDeleteByIdAsync(string houseId);
 
         Task DeleteHouseByIdAsync(string houseId);
+
+        Task<bool> IsRentedByIdAsync(string houseId);
+
+        Task<bool> IsRentedByUserWithRenterIdÁsync(string houseId, string userId);
+        Task RentHouseAsync(string houseId, string userId);
+
+        Task LeaveHouseAsync(string houseId);
 
     }
 }
