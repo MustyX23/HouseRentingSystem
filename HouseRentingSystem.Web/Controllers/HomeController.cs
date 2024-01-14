@@ -3,7 +3,6 @@
     using HouseRentingSystem.Services.Data.Interfaces;
     using HouseRentingSystem.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
-    using System.Diagnostics;
     public class HomeController : Controller
     {
         private IHouseService houseService;

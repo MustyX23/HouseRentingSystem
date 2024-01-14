@@ -70,5 +70,13 @@
 
             return agent.Id.ToString();
         }
+
+        public async Task<bool> HasHouseWithIdAsync(string houseId, string agentId)
+        {
+            Agent agent = await dbContext.Agents
+                .FirstAsync(a => a.Id.ToString() == agentId);
+
+            return agent.ManagedHouses.Any(h => h.Id.ToString() == houseId);
+        }
     }
 }
