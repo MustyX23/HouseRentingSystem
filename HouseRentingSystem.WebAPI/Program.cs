@@ -23,6 +23,16 @@ namespace HouseRentingSystem.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(setup =>
+            {
+                setup.AddPolicy("HouseRentingSystem", policyBuilder =>
+                {
+                    policyBuilder.WithOrigins("https://localhost:7230")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -38,6 +48,8 @@ namespace HouseRentingSystem.WebAPI
 
 
             app.MapControllers();
+
+            app.UseCors("HouseRentingSystem");
 
             app.Run();
         }
