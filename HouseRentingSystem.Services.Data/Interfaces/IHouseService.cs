@@ -1,6 +1,7 @@
 ﻿namespace HouseRentingSystem.Services.Data.Interfaces
 {
     using HouseRentingSystem.Services.Data.Models.House;
+    using HouseRentingSystem.Services.Data.Models.Statistics;
     using HouseRentingSystem.Web.ViewModels.Home;
     using HouseRentingSystem.Web.ViewModels.House;
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -37,6 +38,8 @@
         Task RentHouseAsync(string houseId, string userId);
 
         Task LeaveHouseAsync(string houseId);
+
+        Task<StatisticsServiceModel> GetStatisticsAsync();
 
     }
 }
