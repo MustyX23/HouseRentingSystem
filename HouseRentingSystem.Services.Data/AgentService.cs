@@ -71,12 +71,18 @@
             return agent.Id.ToString();
         }
 
-        public async Task<bool> HasHouseWithIdAsync(string houseId, string agentId)
+        public async Task<bool> HasHouseWithIdAsync(string agentId, string houseId)
         {
-            Agent agent = await dbContext.Agents
-                .FirstAsync(a => a.Id.ToString() == agentId);
+            Agent? agent = await dbContext.Agents
+                .Include(a => a.ManagedHouses)
+                .FirstOrDefaultAsync(a => a.UserId.ToString() == agentId);
 
-            return agent.ManagedHouses.Any(h => h.Id.ToString() == houseId);
+            if (agent == null)
+            {
+                return false;
+            }
+
+            return agent.ManagedHouses.Any(h => h.Id.ToString() == houseId.ToLower());
         }
     }
 }

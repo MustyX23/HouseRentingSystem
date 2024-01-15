@@ -44,7 +44,18 @@ namespace HouseRentingSystem.WebAPI
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseEndpoints(config =>
+            {
+                config.MapControllerRoute(
+                    name: "ProtectiveUrlPattern",
+                    pattern: "/{controller}/{action}/{id}/{information}");
+                config.MapDefaultControllerRoute();
+                config.MapRazorPages();
+
+            });
 
 
             app.MapControllers();

@@ -20,6 +20,6 @@ namespace HouseRentingSystem.Services.Data.Interfaces
 
         Task<string?> FindAgentIdByUserIdAsync(string userId);
 
-        Task<bool> HasHouseWithIdAsync(string houseId, string agentId);
+        Task<bool> HasHouseWithIdAsync(string agentId, string houseId);
     }
 }
