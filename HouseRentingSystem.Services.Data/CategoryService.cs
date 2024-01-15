@@ -1,5 +1,6 @@
 ﻿namespace HouseRentingSystem.Services.Data
 {
+    using HouseRentingSystem.Data.Models;
     using HouseRentingSystem.Services.Data.Interfaces;
     using HouseRentingSystem.Web.Data;
     using HouseRentingSystem.Web.ViewModels.Category;
@@ -11,6 +12,20 @@
         public CategoryService(HouseRentingDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task<IEnumerable<AllCategoriesViewModel>> AllCategoriesForListAsync()
+        {
+            IEnumerable<AllCategoriesViewModel> allCategories = await dbContext.Categories
+                .AsNoTracking()
+                .Select(c => new AllCategoriesViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToArrayAsync();
+
+            return allCategories;
         }
 
         public async Task<IEnumerable<string>> AllCategoryNamesAsync()
@@ -43,6 +58,20 @@
                 }).ToArrayAsync();
 
             return allSelectedCategories;
+        }
+
+        public async Task<CategoryDetailsViewModel> GetDetailsByIdAsync(int id)
+        {
+            Category category = await dbContext
+                .Categories
+                .FirstAsync(c => c.Id == id);
+
+            CategoryDetailsViewModel viewModel = new CategoryDetailsViewModel()
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
+            return viewModel;
         }
     }
 }

@@ -3,6 +3,7 @@ namespace HouseRentingSystem.WebAPI
     using HouseRentingSystem.Services.Data.Interfaces;
     using HouseRentingSystem.Web.Data;
     using HouseRentingSystem.Web.Infrastructure.Extensions;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     public class Program
@@ -51,7 +52,8 @@ namespace HouseRentingSystem.WebAPI
             {
                 config.MapControllerRoute(
                     name: "ProtectiveUrlPattern",
-                    pattern: "/{controller}/{action}/{id}/{information}");
+                    pattern: "/{controller}/{action}/{id}/{information}",
+                    defaults: new {Controller = "Category", Action ="Details"});
                 config.MapDefaultControllerRoute();
                 config.MapRazorPages();
 
