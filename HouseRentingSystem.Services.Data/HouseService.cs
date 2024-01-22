@@ -262,6 +262,11 @@
                 .Where(h => h.IsActive)
                 .FirstAsync(h => h.Id.ToString() == houseId);
 
+            if (house == null)
+            {
+                return false;
+            }
+
             return house.RenterId.HasValue;
         }
 
@@ -271,7 +276,12 @@
                 .Where(h => h.IsActive)
                 .FirstAsync(h => h.Id.ToString() == houseId);
 
-            return house.RenterId.HasValue && house.RenterId == Guid.Parse(userId);
+            if (house == null)
+            {
+                return false;
+            }
+
+            return house.RenterId.HasValue && !string.IsNullOrEmpty(userId) && house.RenterId == Guid.Parse(userId);
         }
 
         public async Task<IEnumerable<IndexViewModel>> LastThreeHousesAsync()
